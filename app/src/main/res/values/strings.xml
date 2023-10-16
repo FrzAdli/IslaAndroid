@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">Isla_Beta</string>
+    <string name="welcome_back">Welcome Back</string>
+    <string name="login_to_continue">Login to Continue</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="sign_in">Sign In</string>
+    <string name="create_new_account">Create New Account</string>
+    <string name="add_image">add_image</string>
+    <string name="name">Name</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="account">Account</string>
+    <string name="setting">Setting</string>
+    <string name="api_key">API Key</string>
+    <string name="delete_history_chat">Delete history chat</string>
+    <string name="type_a_message">Type a message</string>
+    <string name="openai_api">OpenAI API</string>
+    <string name="prodia_api">Prodia API</string>
+    <string name="insert_api_key_here">Insert API Key Here...</string>
+    <string name="save">Save</string>
+    <string name="imagemessage">imageMessage</string>
+</resources>
