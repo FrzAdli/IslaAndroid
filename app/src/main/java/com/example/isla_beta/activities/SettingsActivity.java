@@ -48,10 +48,7 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void setListeners() {
-        binding.imageBack.setOnClickListener(v -> {
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-            startActivity(intent);
-        });
+        binding.imageBack.setOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
 
         binding.settingAccount.setOnClickListener(v -> {
             Intent intent = new Intent(getApplicationContext(), AccountActivity.class);
@@ -86,6 +83,7 @@ public class SettingsActivity extends AppCompatActivity {
                     deleteChat();
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(intent);
+                    finish();
                 })
                 .setNegativeButton("No", (dialog, id) -> dialog.dismiss());
         AlertDialog dialog = builder.create();

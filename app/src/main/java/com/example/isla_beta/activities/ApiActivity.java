@@ -47,10 +47,7 @@ public class ApiActivity extends AppCompatActivity {
     }
 
     private void setListeners() {
-        binding.imageBack.setOnClickListener(v -> {
-            Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
-            startActivity(intent);
-        });
+        binding.imageBack.setOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
         binding.saveButton.setOnClickListener(v -> save());
         binding.toggleViewOpenAI.setOnClickListener(v -> toggleOpenAI());
         binding.toggleViewProdia.setOnClickListener(v -> toggleProdia());
@@ -106,7 +103,8 @@ public class ApiActivity extends AppCompatActivity {
                     );
             documentReference.update(Constants.KEY_PRODIA, null);
         }
-        Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+        Intent intent = new Intent(getApplicationContext(), ApiActivity.class);
         startActivity(intent);
+        finish();
     }
 }

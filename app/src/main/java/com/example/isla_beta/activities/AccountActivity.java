@@ -38,6 +38,7 @@ public class AccountActivity extends AppCompatActivity {
         binding = ActivityAccountBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         preferenceManager = new PreferenceManager(getApplicationContext());
+        encodedImage = preferenceManager.getString(Constants.KEY_IMAGE);
 
         isPasswordVisible =  new AtomicBoolean(false);
 
@@ -46,10 +47,7 @@ public class AccountActivity extends AppCompatActivity {
     }
 
     private void setListener() {
-        binding.imageBack.setOnClickListener(v -> {
-            Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
-            startActivity(intent);
-        });
+        binding.imageBack.setOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
 
         binding.layoutImage.setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -104,10 +102,9 @@ public class AccountActivity extends AppCompatActivity {
                     preferenceManager.putString(Constants.KEY_IMAGE, encodedImage);
                     Intent i = new Intent(getApplicationContext(), AccountActivity.class);
                     startActivity(i);
+                    finish();
                 })
-                .addOnFailureListener(e -> {
-                    showToast("Gagal menyimpan perubahan data akun");
-                });
+                .addOnFailureListener(e -> showToast("Gagal menyimpan perubahan data akun"));
     }
 
 
