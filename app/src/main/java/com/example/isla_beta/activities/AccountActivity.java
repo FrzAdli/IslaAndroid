@@ -86,6 +86,7 @@ public class AccountActivity extends AppCompatActivity {
     }
 
     private void saveAccount() {
+        loading(true);
         FirebaseFirestore database = FirebaseFirestore.getInstance();
         String userId = preferenceManager.getString(Constants.KEY_USER_ID);
         DocumentReference userRef = database.collection(Constants.KEY_COLLECTION_USERS).document(userId);
@@ -105,9 +106,8 @@ public class AccountActivity extends AppCompatActivity {
                     finish();
                 })
                 .addOnFailureListener(e -> showToast("Gagal menyimpan perubahan data akun"));
+        loading(false);
     }
-
-
 
     private void showToast(String message) {
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
