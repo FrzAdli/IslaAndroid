@@ -74,7 +74,7 @@
         <com.makeramen.roundedimageview.RoundedImageView
             android:layout_width="@dimen/_25sdp"
             android:layout_height="@dimen/_25sdp"
-            android:background="@color/icon_background"
+            style="@style/ToggleEyeTint"
             android:src="@drawable/ic_camera"
             android:scaleType="centerCrop"
             app:riv_oval="true"
@@ -167,6 +167,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/inputEmail"/>
 
+    <ImageButton
+        android:id="@+id/toggleView_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_12sdp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:src="@drawable/ic_eye"
+        style="@style/ToggleEyeTint"
+        app:layout_constraintStart_toEndOf="@id/title_password"
+        app:layout_constraintTop_toTopOf="@id/title_password"
+        app:layout_constraintBottom_toBottomOf="@id/title_password"/>
+
     <EditText
         android:id="@+id/inputPassword"
         android:layout_width="match_parent"
@@ -186,20 +198,41 @@
         android:textSize="@dimen/_13ssp"
         app:layout_constraintTop_toBottomOf="@id/title_password"/>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/saveButton"
+
+    <FrameLayout
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/_40sdp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_12sdp"
         android:layout_marginStart="@dimen/_16sdp"
-        android:text="@string/save"
-        android:textColor="@color/white"
-        android:backgroundTint="@color/primary"
-        android:textSize="@dimen/_13ssp"
-        android:textStyle="bold"
-        app:cornerRadius="@dimen/_8sdp"
+        android:animateLayoutChanges="true"
         app:layout_constraintTop_toBottomOf="@id/inputPassword"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/saveButton"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_40sdp"
+            android:text="@string/save"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/primary"
+            android:textSize="@dimen/_13ssp"
+            android:textStyle="bold"
+            app:cornerRadius="@dimen/_8sdp" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="@dimen/_25sdp"
+            android:layout_height="@dimen/_25sdp"
+            android:layout_gravity="center"
+            android:visibility="invisible"
+            app:layout_constraintTop_toTopOf="@id/saveButton"
+            app:layout_constraintBottom_toBottomOf="@id/saveButton"
+            app:layout_constraintStart_toStartOf="@id/saveButton"
+            app:layout_constraintEnd_toEndOf="@id/saveButton"/>
+
+
+    </FrameLayout>
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

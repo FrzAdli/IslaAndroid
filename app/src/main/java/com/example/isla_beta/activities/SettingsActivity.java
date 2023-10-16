@@ -54,7 +54,8 @@ public class SettingsActivity extends AppCompatActivity {
         });
 
         binding.settingAccount.setOnClickListener(v -> {
-
+            Intent intent = new Intent(getApplicationContext(), AccountActivity.class);
+            startActivity(intent);
         });
 
         binding.settingAPI.setOnClickListener(v -> {
