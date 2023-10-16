@@ -7,18 +7,21 @@
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
-        android:fullBackupContent="@xml/backup_rules"
         android:extractNativeLibs="true"
+        android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="Isla"
         android:supportsRtl="true"
         android:theme="@style/Theme.Isla_Beta"
         tools:targetApi="31">
         <activity
-            android:name=".activities.ApiActivity"
+            android:name=".activities.AccountActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize"/>
-
+        <activity
+            android:name=".activities.ApiActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".activities.SettingsActivity"
             android:exported="false"
