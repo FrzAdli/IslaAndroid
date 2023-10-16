@@ -456,7 +456,7 @@ public class MainActivity extends AppCompatActivity {
                                         String encodedImage = encodeImage(bitmap);
                                         sendImage(encodedImage);
                                     }
-                                } catch(Error e) {
+                                } catch(Exception e) {
                                     sendAnswer("Gagal mengirim gambar");
                                 }
 
