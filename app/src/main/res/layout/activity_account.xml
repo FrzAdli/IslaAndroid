@@ -76,12 +76,21 @@
                 android:scaleType="centerCrop"
                 app:riv_oval="true"/>
 
-            <ImageView
-                android:layout_width="@dimen/_25sdp"
-                android:layout_height="@dimen/_25sdp"
-                style="@style/ToggleEyeTint"
-                android:src="@drawable/ic_camera"
-                android:layout_gravity="end|bottom"/>
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="@dimen/_8sdp"
+                android:layout_gravity="end|bottom"
+                app:cardElevation="0dp">
+
+                <ImageView
+                    android:layout_width="@dimen/_25sdp"
+                    android:layout_height="@dimen/_25sdp"
+                    style="@style/cameraTint"
+                    android:src="@drawable/ic_camera" />
+
+            </androidx.cardview.widget.CardView>
+
 
         </FrameLayout>
 

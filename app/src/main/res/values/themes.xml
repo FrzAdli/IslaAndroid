@@ -24,6 +24,7 @@
     </style>
 
     <style name="ToggleEyeTint"><item name="tint">@color/primary_dark</item></style>
+    <style name="cameraTint"><item name="tint">@color/sentDark</item></style>
 
     <style name="backButtonTint"><item name="tint">@color/primary_dark</item></style>
     <style name="backgroundTint"><item name="android:backgroundTint">@color/primary_light</item></style>
