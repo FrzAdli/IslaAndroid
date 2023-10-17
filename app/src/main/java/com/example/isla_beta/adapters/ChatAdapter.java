@@ -158,6 +158,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
                 binding.imageMessage.setImageBitmap(bitmap);
                 binding.imageMessage.setVisibility(View.VISIBLE);
+                binding.downloadButton.setVisibility(View.VISIBLE);
                 binding.textMessage.setVisibility(View.GONE);
                 binding.textDateTime.setText(chatMessage.dateTime);
             } else if(chatMessage.messageType.equals(Constants.KEY_MESSAGE_TYPE_IMAGE)) {
@@ -165,6 +166,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
                 binding.imageMessage.setImageBitmap(bitmap);
                 binding.imageMessage.setVisibility(View.VISIBLE);
+                binding.downloadButton.setVisibility(View.VISIBLE);
                 binding.textMessage.setText(chatMessage.message);
                 binding.textMessage.setVisibility(View.VISIBLE);
                 binding.textDateTime.setText(chatMessage.dateTime);
@@ -178,6 +180,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 binding.videoMessage.setImageBitmap(bmFrame);
                 binding.videoMessage.setVisibility(View.VISIBLE);
                 binding.playButton.setVisibility(View.VISIBLE);
+                binding.downloadButton.setVisibility(View.VISIBLE);
             } else {
                 binding.imageMessage.setVisibility(View.GONE);
                 binding.textMessage.setText(chatMessage.message);
@@ -201,6 +204,12 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 Uri videoUri = Uri.parse(videoUrl);
                 showVideoDialog(v.getContext(), videoUri);
             });
+
+            binding.downloadButton.setOnClickListener(v -> downloadFile());
+
+        }
+
+        private void downloadFile(){
 
         }
 
