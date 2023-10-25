@@ -9,8 +9,8 @@ public class SearchImage {
 
     public static String searchImage(String query) {
         try {
-            String apiKey = "GOOGLE_APIS_API";
-            String searchEngineId = "GOOGLE_SEARCH_ENGINE_ID";
+            String apiKey = "AIzaSyCtShZUVar0rMmVLZxanSqzpnSOMHf4gdc";
+            String searchEngineId = "d1c2823f195bd44ef";
             OkHttpClient client = new OkHttpClient();
             String url = "https://www.googleapis.com/customsearch/v1?key=" + apiKey + "&cx=" + searchEngineId + "&searchType=image&q=" + query;
             Request request = new Request.Builder().url(url).build();

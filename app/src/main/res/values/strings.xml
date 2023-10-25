@@ -20,4 +20,5 @@
     <string name="insert_api_key_here">Insert API Key Here...</string>
     <string name="save">Save</string>
     <string name="imagemessage">imageMessage</string>
+    <string name="notification_listener_service" />
 </resources>

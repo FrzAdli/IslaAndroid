@@ -1,18 +1,29 @@
 package com.example.isla_beta.activities;
 
+import static android.provider.Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS;
+
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.content.ComponentName;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.view.View;
@@ -27,6 +38,7 @@ import com.example.isla_beta.functions.SearchImageFunction;
 import com.example.isla_beta.models.ChatMessage;
 import com.example.isla_beta.models.PromptMessage;
 import com.example.isla_beta.utilities.Constants;
+import com.example.isla_beta.utilities.NotificationListener;
 import com.example.isla_beta.utilities.PreferenceManager;
 import com.example.isla_beta.utilities.SearchImage;
 import com.google.firebase.firestore.DocumentChange;
@@ -55,6 +67,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -78,6 +91,9 @@ public class MainActivity extends AppCompatActivity {
     private String encodedImage;
     List<PromptMessage> userConversation;
 
+    private static final int REQUEST_BLUETOOTH_PERMISSION = 1;
+    private boolean bluetoothPermissionGranted = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,11 +103,11 @@ public class MainActivity extends AppCompatActivity {
         preferenceManager = new PreferenceManager(getApplicationContext());
 
         String userConversationJson = preferenceManager.getString(Constants.KEY_USER_CONVERSATION);
-        if(!TextUtils.isEmpty(userConversationJson)) {
+        if (!TextUtils.isEmpty(userConversationJson)) {
             try {
                 JSONArray jsonArray = new JSONArray(userConversationJson);
                 userConversation = new ArrayList<>();
-                for(int i=0; i < jsonArray.length(); i++) {
+                for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
                     String role = jsonObject.getString("role");
                     String content = jsonObject.getString("content");
@@ -108,11 +124,90 @@ public class MainActivity extends AppCompatActivity {
             saveUserConversation();
         }
 
+        checkBluetoothPermission();
+        if (isNotificationListenerEnabled()) {
+            Intent intent = new Intent(getApplicationContext(), NotificationListener.class);
+            startService(intent);
+        } else {
+            startActivity(new Intent(ACTION_NOTIFICATION_LISTENER_SETTINGS));
+        }
+
         loadUserDetails();
         getToken();
         setListeners();
         init();
         listenMessages();
+    }
+
+    private void checkBluetoothPermission() {
+        BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        if (bluetoothAdapter != null && bluetoothAdapter.isEnabled()) {
+            if (checkSelfPermission(android.Manifest.permission.BLUETOOTH) == PackageManager.PERMISSION_GRANTED
+                    && checkSelfPermission(Manifest.permission.BLUETOOTH_ADMIN) == PackageManager.PERMISSION_GRANTED) {
+                bluetoothPermissionGranted = true;
+                preferenceManager.putBoolean(Constants.KEY_BLUETOOTH_PERMISSION, true);
+            } else {
+                requestBluetoothPermission();
+            }
+        }
+    }
+
+    private void requestBluetoothPermission() {
+        if (shouldShowRequestPermissionRationale(Manifest.permission.BLUETOOTH) ||
+                shouldShowRequestPermissionRationale(Manifest.permission.BLUETOOTH_ADMIN)) {
+            showPermissionRationaleDialog();
+        } else {
+            requestPermissions(
+                    new String[] {Manifest.permission.BLUETOOTH, Manifest.permission.BLUETOOTH_ADMIN},
+                    REQUEST_BLUETOOTH_PERMISSION
+            );
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == REQUEST_BLUETOOTH_PERMISSION) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                bluetoothPermissionGranted = true;
+
+                preferenceManager.putBoolean(Constants.KEY_BLUETOOTH_PERMISSION, true);
+            } else {
+                // Izin ditolak
+                preferenceManager.putBoolean(Constants.KEY_BLUETOOTH_PERMISSION, false);
+                showToast("Izin Bluetooth ditolak");
+            }
+        }
+    }
+
+    private void showPermissionRationaleDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Izin Bluetooth Diperlukan");
+        builder.setMessage("Aplikasi memerlukan izin Bluetooth untuk berfungsi dengan baik.");
+        builder.setPositiveButton("Izinkan", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                requestBluetoothPermission();
+            }
+        });
+        builder.setNegativeButton("Tolak", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Handle when user denies the permission
+            }
+        });
+        builder.show();
+    }
+
+
+    private boolean isNotificationListenerEnabled() {
+        String packageName = getPackageName();
+        String flat = Settings.Secure.getString(getContentResolver(), "enabled_notification_listeners");
+        if (flat != null) {
+            return flat.contains(packageName);
+        }
+        return false;
     }
 
     private void init() {

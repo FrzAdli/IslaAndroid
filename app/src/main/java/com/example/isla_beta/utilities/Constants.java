@@ -16,6 +16,9 @@ public class Constants {
     public static final String KEY_MESSAGE = "message";
     public static final String KEY_TIMESTAMP = "timestamp";
 
+    public static final String KEY_BLUETOOTH_PERMISSION = "bluetoothPermission";
+    public static final String KEY_BLUETOOTH_CONNECTION = "bluetoothConnection";
+
     public static final String KEY_MESSAGE_TYPE = "messageType";
     public static final String KEY_MESSAGE_TYPE_TEXT = "TextMessage";
     public static final String KEY_MESSAGE_TYPE_IMAGE = "ImageMessage";
